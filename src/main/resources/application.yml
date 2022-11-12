@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://101.34.12.208:3306/music?useUnicode=true&characterEncoding=utf8&useSSL=false&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost/music?useUnicode=true&characterEncoding=utf8&useSSL=false&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
 #  时间
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
