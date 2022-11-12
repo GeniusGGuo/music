@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springbootmusic.music.Mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.springbootmusic.music.domain.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="sex" property="sex"/>
+        <result column="phone_num" property="phoneNum"/>
+        <result column="email" property="email"/>
+        <result column="birth" property="birth"/>
+        <result column="avator" property="avator"/>
+        <result column="location" property="location"/>
+        <result column="introduction" property="introduction"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id
+        ,username,password,sex,phone_num,email,birth,avator,location,introduction,create_time,update_time
+    </sql>
+
+
+    <insert id="insert">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phoneNum != null">
+                phone_num,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="avator != null">
+                avator,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            create_time,update_time,
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">
+                #{id},
+            </if>
+            <if test="username!= null ">
+                #{username},
+            </if>
+            <if test="password != null ">
+                #{password},
+            </if>
+            <if test="sex != null ">
+                #{sex},
+            </if>
+            <if test="phoneNum != null ">
+                #{phoneNum},
+            </if>
+            <if test="email != null ">
+                #{email},
+            </if>
+            <if test="birth != null ">
+                #{birth},
+            </if>
+            <if test="avator != null ">
+                #{avator},
+            </if>
+            <if test="location != null ">
+                #{location},
+            </if>
+            <if test="introduction != null ">
+                #{introduction},
+            </if>
+            now(),now(),
+        </trim>
+    </insert>
+    <update id="update">
+        update user
+        <set>
+            <if test="username != null">
+                username=#{username},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="sex != null">
+                sex=#{sex},
+            </if>
+            <if test="phoneNum != null">
+                phone_num=#{phoneNum},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="birth != null">
+                birth=#{birth},
+            </if>
+            <if test="avator != null">
+                avator=#{avator},
+            </if>
+            <if test="location != null">
+                location=#{location},
+            </if>
+            <if test="introduction != null">
+                introduction=#{introduction},
+            </if>
+            update_time=now(),
+        </set>
+        where id =#{id}
+    </update>
+
+
+    <delete id="delete">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Colum_List"/>
+        from user where id=#{id}
+    </select>
+
+    <select id="allUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Colum_List"/>
+        from user
+    </select>
+    <select id="verifyPassword" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where username = #{username}
+          and password = #{password}
+    </select>
+    <select id="getByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Colum_List"/>
+        from user
+        where username=#{username}
+    </select>
+    <select id="loginIn" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where username=#{username} and password=#{password}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springbootmusic.music.Mapper.CommentMapper">
+    <resultMap id="baseOrderMap" type="com.springbootmusic.music.domain.Comment">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="song_id" property="songId"/>
+        <result column="song_list_id" property="songListId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="content" property="content"/>
+        <result column="up" property="up"/>
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id,user_id,type,song_id,song_list_id,create_time,content,up
+    </sql>
+
+    <insert id="insert">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="songId != null">
+                song_id,
+            </if>
+            <if test="songListId != null">
+                song_list_id,
+            </if>
+            create_time,
+            <if test="up != null">
+                up,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">
+                #{id},
+            </if>
+            <if test="userId != null ">
+                #{userId},
+            </if>
+            <if test="type != null ">
+                #{type},
+            </if>
+            <if test="songId != null ">
+                #{songId},
+            </if>
+            <if test="songListId != null ">
+                #{songListId},
+            </if>
+            now(),
+            <if test="up != null ">
+                #{up},
+            </if>
+            <if test="content != null ">
+                #{content},
+            </if>
+        </trim>
+    </insert>
+    <update id="update">
+        update comment
+        <set>
+            <if test="userId!=null">
+                user_id=#{userId},
+            </if>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+            <if test="songId!=null">
+                song_id=#{songId},
+            </if>
+            <if test="songListId!=null">
+                song_list_id=#{songListId},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="up!=null">
+                up=#{up},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+    <delete id="delete">
+        delete
+        from comment
+        where id = #{id}
+    </delete>
+    <select id="selectByPrimaryKey" resultMap="baseOrderMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Colum_List"/>
+        from comment where id=#{id}
+    </select>
+    <select id="findSongCommentAll" resultMap="baseOrderMap">
+        select
+            <include refid="Base_Colum_List"/>
+        from comment
+        where song_id=#{songId}
+    </select>
+    <select id="findSongListCommentAll" resultMap="baseOrderMap">
+        select
+            <include refid="Base_Colum_List"/>
+        from comment
+        where song_list_id=#{songListId}
+    </select>
+    <select id="findContentAll" resultMap="baseOrderMap">
+        select
+            <include refid="Base_Colum_List"/>
+        from comment
+    </select>
+
+
+</mapper>

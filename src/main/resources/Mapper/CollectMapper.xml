@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springbootmusic.music.Mapper.CollectMapper">
+    <resultMap id="baseOrderMap" type="com.springbootmusic.music.domain.Collect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="song_id" property="songId"/>
+        <result column="song_list_id" property="songListId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id,user_id,type,song_id,song_list_id,create_time
+    </sql>
+
+
+    <insert id="insert">
+        insert into collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="songId != null">
+                song_id,
+            </if>
+            <if test="songListId != null">
+                song_list_id,
+            </if>
+            create_time,
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">
+                #{id},
+            </if>
+            <if test="userId != null ">
+                #{userId},
+            </if>
+            <if test="type != null ">
+                #{type},
+            </if>
+            <if test="songId != null ">
+                #{songId},
+            </if>
+            <if test="songListId != null ">
+                #{songListId},
+            </if>
+            now(),
+        </trim>
+    </insert>
+    <update id="update">
+        update collect
+        <set>
+            <if test="userId!=null">
+                user_id=#{userId},
+            </if>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+            <if test="songId!=null">
+                song_id=#{songId},
+            </if>
+            <if test="songListId!=null">
+                song_list_id=#{songListId},
+            </if>
+            <if test="createTime!=null">
+                create_time=#{createTime},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+    <delete id="delete">
+        delete
+        from collect
+        where song_id=#{songId} and user_id=#{userId}
+    </delete>
+    <select id="allCollect" resultMap="baseOrderMap">
+        select
+        <include refid="Base_Colum_List"/>
+        from collect
+    </select>
+    <select id="findCollectOfUserId" resultMap="baseOrderMap">
+        select
+            <include refid="Base_Colum_List"/>
+        from collect
+        where user_id=#{userId}
+    </select>
+
+    <select id="existSongIdAndUserId" resultType="java.lang.Integer">
+        select COALESCE(count(*),0) as num
+        from collect
+        where song_id=#{songId} and user_id=#{userId}
+    </select>
+
+</mapper>

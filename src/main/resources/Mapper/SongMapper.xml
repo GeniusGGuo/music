@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springbootmusic.music.Mapper.SongMapper">
+
+    <resultMap id="baseOrderMap" type="com.springbootmusic.music.domain.Song">
+        <id column="id" property="id"/>
+        <result column="singer_id" property="singerId"/>
+        <result column="name" property="name"/>
+        <result column="introduction" property="introduction"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="pic" property="pic"/>
+        <result column="url" property="url"/>
+    </resultMap>
+    <resultMap id="ResultMap" type="com.springbootmusic.music.domain.Song" extends="baseOrderMap">
+        <result column="lyric" property="lyric"/>
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id
+        ,singer_id,name,create_time,update_time,introduction,pic,url
+    </sql>
+
+    <sql id="Blob_Colum_List">
+        id
+        ,singer_id,name,create_time,update_time,introduction,pic,url,lyric
+    </sql>
+
+    <insert id="insert">
+        insert into song
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="singerId != null">
+                singer_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            create_time,update_time,
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="lyric != null">
+                lyric,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="singerId != null">
+                #{singerId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            now(),now(),
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="lyric != null">
+                #{lyric},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        update song
+        <set>
+            <if test="singerId!=null">
+                singer_id=#{singerId},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="introduction!=null">
+                introduction=#{introduction},
+            </if>
+            update_time=now(),
+            <if test="pic!=null">
+                pic=#{pic},
+            </if>
+            <if test="lyric!=null">
+                lyric=#{lyric},
+            </if>
+            <if test="url!=null">
+                url=#{url},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+
+    <delete id="delete">
+        delete
+        from song
+        where id = #{id}
+    </delete>
+
+
+    <select id="selectByPrimaryKey" resultMap="ResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Blob_Colum_List"/>
+        from song where id=#{id}
+    </select>
+
+    <select id="allSong" resultMap="ResultMap">
+        select
+        <include refid="Blob_Colum_List"/>
+        from song
+    </select>
+
+
+    <select id="songOfSingerId" resultMap="ResultMap">
+        select
+        <include refid="Blob_Colum_List"/>
+        from song
+        where singer_id =#{singerId}
+    </select>
+
+    <select id="songOfName" resultMap="ResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Blob_Colum_List"/>
+        from song where name = #{name}
+    </select>
+
+    <select id="songOfLikeName" resultMap="baseOrderMap">
+        select
+        <include refid="Blob_Colum_List"/>
+        from song where name like #{name}
+    </select>
+
+</mapper>

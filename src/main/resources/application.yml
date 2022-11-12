@@ -1,0 +1,23 @@
+
+mybatis:
+  mapper-locations: classpath:Mapper/*Mapper.xml # mapper映射文件路径
+  type-aliases-package: com.springbootmusic.music.domain   # 配置哪个包下的类有默认的别名
+#端口
+server:
+  port: 9000
+
+spring:
+#  数据库连接
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://101.34.12.208:3306/music?useUnicode=true&characterEncoding=utf8&useSSL=false&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
+#  时间
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
